@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="/javascripts/jquery-3.3.1.min.js"></script>
+<style type="text/css">
+body {  
+background-color: gray;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction:column;
+	 justify-content: flex-start;
+     align-items:center;
+  	margin: 0;
+}
+.navbar{background:#f97300;}
+.nav-link, .navbar-brand{color: #f4f4f4;cursor:pointer;}
+.nav-link{margin-right:1em !important;}
+.nav-link:hover{background: #f4f4f4;color:#f97300;}
+.navbar-collapse{justify-content:flex-end;}
+.navbar-toggler{background:#fff !important;}
+#machine_area {
+background-image: url("/images/20210926slotmachine.png");
+background-size: 800px 420px;
+background-repeat: no-repeat;
+display: flex;
+  flex-direction:column;
+	 justify-content: center;
+     align-items:center;
+}
+#blank1 {height: 120px}
+#word_area {
+ height: 120px;
+ width: 470px;
+ display: flex;
+  flex-direction:row;
+	 justify-content: center;
+     align-items:center;
+}
+#first_word,  #second_word, #third_word{
+  width:150px;
+  height: 120px;
+  overflow: hidden
+}
+.result-item {  
+  font-size: 96px;
+}
+.is-play.result-txt {
+    animation: resultPlay 1s infinite linear;
+  }
+
+  @keyframes resultPlay {
+    100% {
+      transform: translateY(-90%)
+    }
+  }
+#first_word {
+  text-align: left
+}
+#second_word {
+  text-align: center
+}
+#third_word {
+  text-align: center
+}
+#blank2 {height: 120px}
+#button_area {
+ width: 240px;
+ display: flex;
+  flex-direction:row;
+	 justify-content: space-between;
+     align-items:center;
+}
+/* #reset {
+  position: absolute;
+ left: 250
+}
+#roll {
+  position: absolute;
+ left: 350
+} */
+#blank3 {height: 20px}
+#active_area {
+  width: 800px;
+  background-color: pink;
+}
+
+</style>
+
+  <title>拉霸抽籤及回應結果記錄</title>
+  </head>
+  <body>
+    <div id="show_div">
+      <bander></bander>        
+        <outputer></outputer>
+        <inputer></inputer>
+    </div>
+ 
+    <template id="banderUI">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">{{brand}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/api/student">{{home}}</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{often1}} <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/active">{{often2}}</a>
+            </li>
+          </ul>
+          <span class="navbar-text">
+            {{statusreport}}
+          </span>
+        </div>
+      </nav>
+    </template>
+     
+    <template id="outputerUI">
+        <div id="machine_area">
+          <div id="blank1"></div>
+          <div id="word_area">
+            <div id="first_word"  >
+              <div class="result-txt" id="result1">
+                <div class="result-item" v-for="word1 of last_name">{{word1}}</div>
+              </div>   
+            </div> 
+            <div id="second_word" >
+                  <div class="result-txt" id="result2">
+                    <div class="result-item" v-for="word2 of middle_name">{{word2}}</div>
+                </div>
+            </div>
+            <div id="third_word">
+              <div class="result-txt" id="result3">
+                <div class="result-item" v-for="word3 of first_name">{{word3}}</div>
+              </div>
+            </div>    
+          </div>
+          <div id="blank2"></div>
+          <div id="button_area">
+            <button type="submit" id="reset"class="btn btn-light" @click="reset()">歸零</button>
+            <button type="submit" id="roll" class="btn btn-danger" @click="roll()">轉動</button>
+            <!-- <audio controls="controls" hidden :src="" ref="audio"></audio> -->
+          </div>
+        </div>
+    </template>
+
+    <template id="inputerUI">
+      <div id="active_area">
+    <h4>互動情形：</h4>
+    <table>          
+    <tr>
+      <td width="200px"><button type="submit" value="" class="btn btn-dark" @click="record(0)">缺席</button></td>
+      <td width="200px"><button type="submit" value="" class="btn btn-secondary" @click="record(1)">未回應</button></td>
+        <td width="200px"><button type="submit" value="" class="btn btn-ligth" @click="record(2)">回答不知道</button></td>
+          <td width="200px"><button type="submit" value="" class="btn btn-warning" @click="record(3)">答非所問</button></td>
+    </tr>
+    <tr height="20px"></tr>
+    <tr>
+      <td><button type="submit" value="" class="btn btn-info" @click="record(4)">簡答</button></td>
+      <td><button type="submit" value="" class="btn btn-primary" @click="record(5)">長答</button></td>
+        <td><button type="submit" value="" class="btn btn-success" @click="record(6)">答得好</button></td>
+          <td><button type="submit" value="" class="btn btn-light" @click="record(7)">其他</button></td>
+    </tr>
+    </table>
+    </div>
+    </template>
+
+
+
+
+<!-- Vue CDN-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+var bus=new Vue();
+Vue.component("bander",{
+    props:{},
+    data(){
+      return {
+        brand:"教學輔助工具",
+        home:"基本資料管理",
+        often1:"拉霸抽籤",
+        often2:"檢視互動紀錄",
+        often3:"統計分析",
+        statusreport:'<%- JSON.stringify(statusreport) %>'
+      }
+    },
+    methods:{
+
+    },
+    template:"#banderUI"
+  });
+  Vue.component("inputer",{
+    props:{},
+    data(){
+      return {
+        //waterno:""
+      }   
+    },
+    methods:{
+      record:function(activecode){
+        bus.$on("outputer", (pickwaterno) => {
+        let querytext1="?code="+activecode;
+        let querytext2="&waterno="+pickwaterno;
+        let apiurl='/api/active/record/'+querytext1+querytext2;
+        window.location=apiurl;
+      })
+    }
+    },
+    mounted(){
+    
+    },
+    template:"#inputerUI"
+    });
+  Vue.component("outputer",{
+    props:{},
+    data(){
+      return{
+        studentlist:JSON.parse(decodeURIComponent('<%=studentlist%>'))
+      }      
+    },
+    computed:{
+      last_name:function(){
+        let last_name=new Array();
+        let i=1;
+        for(let student of this.studentlist){
+          last_name[i]=student.a10last_name;
+          i=i+1
+        }
+        last_name[0]="7";
+        return last_name
+      },
+      middle_name:function(){
+        let middle_name=new Array();
+        let i=1;
+        for(let student of this.studentlist){
+          middle_name[i]=student.a13middle_name;
+          i=i+1
+        }
+        middle_name[0]="7";
+        return middle_name
+      },
+      first_name:function(){
+        let first_name=new Array();
+        let i=1;
+        for(let student of this.studentlist){
+          first_name[i]=student.a151st_name;
+          i=i+1
+        }
+        first_name[0]="7";
+        return first_name
+      },
+      waterno:function(){
+        let waterno=new Array();
+        let i=1;
+        for(let student of this.studentlist){
+          waterno[i]=student.a35water_no;
+          i=i+1
+        }
+        waterno[0]="7";
+        return waterno
+      }
+    },
+    methods:{
+      roll:function(){
+        pickrandom=Math.random(Date.now());
+        pickno=Math.floor(pickrandom*68);
+        stopno=pickno/68*100;
+        pickwaterno=this.waterno[stopno];
+        if (document.getElementById(`result1`)) {
+      document.getElementById(`result1`).classList.add('is-play');
+      document.getElementById(`result2`).classList.add('is-play');
+      document.getElementById(`result3`).classList.add('is-play');
+      document.getElementById(`result1`).style.transform = 'none';
+      document.getElementById(`result2`).style.transform = 'none';
+      document.getElementById(`result3`).style.transform = 'none';
+      //this.$refs.audio.currentTime=0;
+      // this.$refs.audio.play()
+      }
+        setTimeout(() => {          
+          if (document.getElementById(`result1`)) {            
+            document.getElementById(`result1`).classList.remove('is-play');
+            document.getElementById(`result2`).classList.remove('is-play');
+            document.getElementById(`result3`).classList.remove('is-play');            
+      document.getElementById(`result1`).style.transform = `translateY(${-stopno}%)`;    
+    document.getElementById(`result2`).style.transform = `translateY(${-stopno}%)`;    
+    document.getElementById(`result3`).style.transform = `translateY(${-stopno}%)`;
+    // this.$refs.audio.pause()
+      };
+        }, 5000);
+        bus.$emit("inputer",this.pickwaterno)
+      },
+      reset:function(){     
+      document.getElementById(`result1`).style.transform = 'none';
+      document.getElementById(`result2`).style.transform = 'none';
+      document.getElementById(`result3`).style.transform = 'none';
+      }
+    },
+    template:"#outputerUI"
+  });
+    new Vue({
+        el:'#show_div',
+        data:{
+          testdata:'有執行到此。。。。'
+        },
+        /* computed:{
+
+        },
+        watch:{
+
+        },
+        filters:{
+
+        },
+        mixins:[
+
+        ],
+        template:" ",
+        
+        components:{
+          "bander":bander,
+          "outputer":outputer,
+          "inputer":inputer
+        },*/
+        beforeCreate:function(){
+          console.log("before create...")
+        },created:function(){
+          console.log("created...")
+        },
+        beforeMount:function(){
+          console.log("before mount...")
+        },
+        mounted:function(){
+          console.log("mounted...")
+        },
+        beforeUpdate:function(){
+          console.log("before update...")
+        },
+        updated:function(){
+          console.log("updated...")
+        },
+        beforeDestroy:function(){
+
+        } 
+    })
+</script>
+
+
+  </body>
+</html>
