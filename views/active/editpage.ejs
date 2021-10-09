@@ -24,7 +24,7 @@ body {
 .navbar-toggler{background:#fff !important;}
 </style>
 
-  <title>修正指定之學生資料</title>
+  <title>修正指定之互動紀錄資料</title>
   </head>
   <body>
     <div id="show_div">
@@ -41,14 +41,14 @@ body {
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item  active">
-                <a class="nav-link" href="#">{{home}} <span class="sr-only">(current)</span></a>
+              <li class="nav-item">
+                <a class="nav-link" href="#">{{home}} </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/api/machine">{{often1}}</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/api/active">{{often2}}</a>
+              <li class="nav-item active">
+                <a class="nav-link" href="/api/active">{{often2}}<span class="sr-only">(current)</span></a>
               </li>
             </ul>
             <span class="navbar-text">
@@ -63,35 +63,23 @@ body {
         <div class="card-body">
           <h5 class="card-title">{{card_title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{card_subtitle}}</h6>
-          <form action="/api/student/update" method="post">
+          <form action="/api/active/update" method="post">
             <div class="form-group"> 
               <span>
               <label for="formGroupExampleInput2">{{items.item0}}</label>
-              <input type="text" name="a05register_no" class="form-control" id="formGroupExampleInput0" v-model:value="student.a05register_no">
+              <input type="text" name="a05register" class="form-control" id="formGroupExampleInput0" v-model:value="active.a05register">
               </span>
 
               <label for="formGroupExampleInput2">{{items.item1}}</label>
-              <input type="text" name="a10last_name" class="form-control" id="formGroupExampleInput1" v-model::value="student.a10last_name">
+              <input type="text" name="a10day" class="form-control" id="formGroupExampleInput1" v-model::value="active.a10day">
            
               <label for="formGroupExampleInput2">{{items.item2}}</label>
-              <input type="text" name="a13middle_name" class="form-control" id="formGroupExampleInput2" v-model::value="student.a13middle_name">
+              <input type="text" name="a15time" class="form-control" id="formGroupExampleInput2" v-model::value="active.a15time">
             
               <label for="formGroupExampleInput2">{{items.item3}}</label>
-              <input type="text" name="a151st_name" class="form-control" id="formGroupExampleInput3" v-model:value="student.a151st_name">
-            
-              <label for="formGroupExampleInput2">{{items.item4}}</label>
-              <input type="text" name="a20department" class="form-control" id="formGroupExampleInput4" v-model:value="student.a20department">
-           
-              <label for="formGroupExampleInput2">{{items.item5}}</label>
-              <input type="text" name="a25grade" class="form-control" id="formGroupExampleInput5" v-model:value="student.a25grade">
-            
-              <label for="formGroupExampleInput2">{{items.item6}}</label>
-              <input type="text" name="a30class" class="form-control" id="formGroupExampleInput6" v-mode::value="student.a30class">
-            
-              <label for="formGroupExampleInput2">{{items.item7}}</label>
-              <input type="text" name="a35water_no" class="form-control" id="formGroupExampleInput7" v-model:value="student.a35water_no">
-            
-              <input type="hidden" name="id" class="form-control" id="msg1" :value="student._id">
+              <input type="text" name="a20outcome" class="form-control" id="formGroupExampleInput3" v-model:value="active.a20outcome">
+                    
+              <input type="hidden" name="id" class="form-control" id="msg1" :value="active._id">
               <input type="submit" id="button1" value="確定送出" class="btn btn-info">
             </div>
           </form>
@@ -126,29 +114,15 @@ Vue.component("bander",{
     props:{},
     data(){
       return {
-        card_title:"單筆學生資料修正處",
+        card_title:"單筆互動紀錄資料修正處",
         card_subtitle:"請視需要修正以下某些資料",
         items:{
           item0:"學號",
-          item1:"姓",
-          item2:"中間名",
-          item3:"名",
-          item4:"系名",
-          item5:"年級",
-          item6:"班別",
-          item7:"流水號"     
+          item1:"互動日期",
+          item2:"互動時間",
+          item3:"互動結果"  
         },
-      student:JSON.parse(decodeURIComponent('<%=student%>'))
-      /* values:{
-        value0:this.student.a05register_no,
-        value1:this.student.a10last_name,
-        value2:this.student.a13middle_name,
-        value3:this.student.a151st_name,
-        value4:this.student.a20department,
-        value5:this.student.a25grade,
-        value6:this.student.a30class,
-        value7:this.student.a35water_no
-      } */      
+      active:JSON.parse(decodeURIComponent('<%=active%>'))
       }//EOF return 
     },//EOF data()
     methods:{

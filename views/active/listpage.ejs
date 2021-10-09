@@ -46,10 +46,10 @@ background-color: #fff;
             <li class="nav-item">
               <a class="nav-link" href="/api/student">{{home}}</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="/api/machine">{{often1}}</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="#">{{often2}}<span class="sr-only">(current)</span></a>
             </li>
           </ul>
@@ -124,10 +124,10 @@ background-color: #fff;
               <!-- statusreport="由已擷取資料組清單頁進入本頁"> -->
               
                 <td>
-                  <input type="submit" value="編輯" @click="edit(active._id)">
+                  <input type="submit" value="編輯" @click="editone(active._id)">
                 </td>
                 <td>
-                  <input type="submit" value="刪除" @click="delete(active._id)">
+                  <input type="submit" value="刪除" @click="deleteone(active._id)">
                 </td>
               </tr>
           </tbody>
@@ -154,7 +154,7 @@ Vue.component("bander",{
         often1:"拉霸抽籤",
         often2:"檢視互動紀錄",
         often3:"統計分析",
-        statusreport:'<%- JSON.stringify(statusreport) %>'
+        statusreport:JSON.stringify('<%- statusreport%>') 
       }
     },
     methods:{
@@ -177,16 +177,16 @@ Vue.component("bander",{
     props:{},
     data(){
       return{
-        active_list:JSON.parse(decodeURIComponent('<%=activelist%>'))
+        activelist:JSON.parse(decodeURIComponent('<%=activelist%>'))
       }      
     },
     methods:{
-      edit:function(id){
+      editone:function(id){
         let querytext="?statusreport=由已互動紀錄清單頁的編輯按鈕進入本頁";
         let apiurl='/api/active/edit/'+id+querytext;
         window.location=apiurl;
       }, 
-      delete:function(id){
+      deleteone:function(id){
         let querytext="?statusreport=由已互動紀錄清單頁的刪除按鈕進入本頁";
         let apiurl='/api/active/delete/'+id+querytext;
         window.location=apiurl;

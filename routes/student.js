@@ -5,7 +5,7 @@ const studentController = require('../controllers/index').student;
 router.get('/', function(req, res, next) {
 	studentController.list(req,res)
 });
-//導到單筆學生資料輸入頁
+//導到單筆學生資料編輯頁
 router.get('/edit/:id', function(req, res, next) {
 	studentController.edit(req,res)
 });

@@ -20,6 +20,10 @@ router.get('/batchinput', function(req, res, next) {
 router.get('/record/:waterno', function(req, res, next) {
 	activeController.record(req,res)
 });
+//導到單筆互動紀錄資料編輯頁
+router.get('/edit/:id', function(req, res, next) {
+	activeController.edit(req,res)
+});
 router.get('/find/:no', function(req, res, next) {
 	activeController.findByNo(req,res)
 });
@@ -33,7 +37,7 @@ router.get('/delete/:id', function(req, res, next) {
 	activeController.destroy(req,res)
 });
 //更新指定互動紀錄資料
-router.post('/update/:id', function(req, res, next) {
+router.post('/update/', function(req, res, next) {
 	activeController.update(req,res)
 });
 //測試片斷程式

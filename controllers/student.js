@@ -64,8 +64,8 @@ module.exports = {
             if (err)
                 res.send(err);
             //res.json(student);
-
-            res.redirect("/api/student/?"+"由更新一筆資料回到本頁");
+            statusreport="由更新一筆資料回到本頁"
+            res.redirect("/api/student/?statusreport="+statusreport);
         });
     },
     //刪除
@@ -76,7 +76,7 @@ module.exports = {
             if (err)
                 res.send(err);
             //res.json({ message: 'student successfully deleted' });
-            res.redirect("/api/student/?"+statusreport);
+            res.redirect("/api/student/?statusreport="+statusreport);
         });
 },
 dobatchinput(req, res) {    

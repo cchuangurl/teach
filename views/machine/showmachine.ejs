@@ -222,7 +222,7 @@ Vue.component("bander",{
     data(){
       return{
         studentlist:JSON.parse(decodeURIComponent('<%=studentlist%>')),
-        waterno:[]
+        pickwaterno:"15"
       }      
     },
     computed:{
@@ -269,10 +269,12 @@ Vue.component("bander",{
     },
     methods:{
       roll:function(){
-        pickrandom=Math.random(Date.now());
-        pickno=Math.floor(pickrandom*68);
-        stopno=pickno/68*100;
-        pickwaterno=this.waterno[pickno];
+        let pickrandom=Math.random(Date.now());
+        let pickno=Math.floor(pickrandom*68);
+        let stopno=pickno/68*100;
+        this.pickwaterno=this.waterno[pickno];
+        console.log("pickno:"+pickno)
+        console.log("pickwaterno:"+this.pickwaterno);
         if (document.getElementById(`result1`)) {
       document.getElementById(`result1`).classList.add('is-play');
       document.getElementById(`result2`).classList.add('is-play');
