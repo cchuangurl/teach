@@ -221,7 +221,8 @@ Vue.component("bander",{
     props:{},
     data(){
       return{
-        studentlist:JSON.parse(decodeURIComponent('<%=studentlist%>'))
+        studentlist:JSON.parse(decodeURIComponent('<%=studentlist%>')),
+        waterno:[]
       }      
     },
     computed:{
@@ -271,7 +272,7 @@ Vue.component("bander",{
         pickrandom=Math.random(Date.now());
         pickno=Math.floor(pickrandom*68);
         stopno=pickno/68*100;
-        pickwaterno=this.waterno[10];
+        pickwaterno=this.waterno[pickno];
         if (document.getElementById(`result1`)) {
       document.getElementById(`result1`).classList.add('is-play');
       document.getElementById(`result2`).classList.add('is-play');

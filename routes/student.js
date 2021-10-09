@@ -6,11 +6,8 @@ router.get('/', function(req, res, next) {
 	studentController.list(req,res)
 });
 //導到單筆學生資料輸入頁
-router.get('/inputpage', function(req, res, next) {
-	res.render("student/inputpage",{
-		//statusreport:req.body.statusreport
-		statusreport:req.query.statusreport
-	})
+router.get('/edit/:id', function(req, res, next) {
+	studentController.edit(req,res)
 });
 //導到學生資料批次輸入頁
 router.get('/batchinput', function(req, res, next) {
@@ -36,7 +33,7 @@ router.get('/delete/:id', function(req, res, next) {
 	studentController.destroy(req,res)
 });
 //&nbsp;
-router.post('/update/:id', function(req, res, next) {
+router.post('/update', function(req, res, next) {
 	studentController.update(req,res)
 });
 //測試片斷程式

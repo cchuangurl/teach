@@ -32,36 +32,51 @@ module.exports = {
             //res.end()
         });
     },
-    //取得某項
-    retrieve(req, res) {
-        var editreport=req.body.statusreport;
+    //依id找到學生資料送去編輯
+    edit(req, res) {
+        var editreport=req.query.statusreport;
+        console.log("the transed id:"+req.params.id)
         Student.findById(req.params.id, function(err, student) {
             if (err)
                 res.send(err);
             //res.json(student);
-            res.render("student/editpage",{
+            console.log("the found student:"+student);
+            let studentx=encodeURIComponent(JSON.stringify(student));
+                res.render("student/editpage",{
                 statusreport:editreport,
-                student:student
-            })
+                student:studentx
+            });
         });
     },
     //更新
     update(req, res) {
-        Student.findOneAndUpdate({_id:req.params.id}, req.body, { new: true }, function(err, student) {
+        /*let edited=new Student({
+            a05register_no:req.body.a05register_no,
+            a10last_name:req.body.a10last_name,
+            a13middle_name:req.body.a13middle_name,
+            a151st_name:req.body.a151st_name,
+            a20department:req.body.a20department,
+            a25grade:req.body.a25grade,
+            a30class:req.body.a30class,
+            a35water_no:req.bodya35water_no
+        }); */
+        Student.findOneAndUpdate({_id:req.body.id}, req.body, { new: true }, function(err, student) {
             if (err)
                 res.send(err);
             //res.json(student);
-            res.redirect("/api/student");
+
+            res.redirect("/api/student/?"+"由更新一筆資料回到本頁");
         });
     },
     //刪除
     destroy(req, res) {
+        var statusreport=req.query.statusreport;
         Student.remove({_id: req.params.id}, function(err, student) {
         //student.findByIdAndRemove(req.params.id, function(err, student) {
             if (err)
                 res.send(err);
             //res.json({ message: 'student successfully deleted' });
-            res.redirect("/api/student");
+            res.redirect("/api/student/?"+statusreport);
         });
 },
 dobatchinput(req, res) {    
