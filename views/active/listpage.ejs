@@ -49,8 +49,11 @@ background-color: #fff;
             <li class="nav-item">
               <a class="nav-link" href="/api/machine">{{often1}}</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/active/forum">{{often2}}</a>
+            </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#">{{often2}}<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#">{{often3}}<span class="sr-only">(current)</span></a>
             </li>
           </ul>
           <span class="navbar-text">
@@ -152,8 +155,9 @@ Vue.component("bander",{
         brand:"教學輔助工具",
         home:"基本資料管理",
         often1:"拉霸抽籤",
-        often2:"檢視互動紀錄",
-        often3:"統計分析",
+        often2:"討論園地",
+        often3:"檢視互動紀錄",
+        often4:"統計分析",
         statusreport:JSON.stringify('<%- statusreport%>') 
       }
     },

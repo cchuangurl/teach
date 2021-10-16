@@ -27,13 +27,13 @@ body {
         <tr height="60px">
         <td width="300px">
         <form  action="/api/student" method="get">
-        <input type="hidden" name="statusreport" value="由功能目錄頁建立及維護基本資料按鈕進入本頁">
+        <input type="hidden" name="statusreport" value="由首頁建立及維護基本資料按鈕進入本頁">
         <input type="submit" value="建立及維護基本資料 " class="btn btn-info">        
         </form>      
         </td>
         <td  width="300px">
           <form  action="/api/machine" method="get">
-            <input type="hidden" name="statusreport" value="由功能目錄頁列拉霸抽號進入本頁">
+            <input type="hidden" name="statusreport" value="由首頁拉霸抽號進入本頁">
             <input type="submit" value="拉霸抽號" class="btn btn-info">        
             </form> 
         </td>
@@ -41,15 +41,25 @@ body {
       <tr height="60px">
         <td width="300px">
         <form  action="/api/active" method="get">
-        <input type="hidden" name="statusreport" value="由功能目錄頁檢視互動紀錄按鈕進入本頁">
+        <input type="hidden" name="statusreport" value="由首頁檢視互紀錄進入本頁">
         <input type="submit" value="檢視互動紀錄" class="btn btn-info">        
         </form>      
         </td>
         <td  width="300px">
+          <form  action="/api/active/forum" method="get">
+            <input type="hidden" name="statusreport" value="由首頁交流園地進入本頁">
+            <input type="submit" value="交流園地" class="btn btn-info">        
+            </form> 
+        </td>
+      </tr>
+      <tr height="60px">
+        <td  width="300px">
           <form  action="/api/active/analysis" method="get">
-            <input type="hidden" name="statusreport" value="由功能目錄頁統計分析按鈕進入本頁">
+            <input type="hidden" name="statusreport" value="由首頁統計分析進入本頁">
             <input type="submit" value="統計分析" class="btn btn-info">        
             </form> 
+        </td>
+        <td width="300px">
         </td>
       </tr>  
       <tr>

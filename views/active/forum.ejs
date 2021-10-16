@@ -23,9 +23,9 @@ background-color: gray;
 .nav-link:hover{background: #f4f4f4;color:#f97300;}
 .navbar-collapse{justify-content:flex-end;}
 .navbar-toggler{background:#fff !important;}
-#machine_area {
-background-image: url("/images/20210926slotmachine.png");
-background-size: 800px 420px;
+#speaker_area {
+background-color: lightgrey;
+background-size: 800px 320px;
 background-repeat: no-repeat;
 display: flex;
   flex-direction:column;
@@ -51,15 +51,6 @@ display: flex;
   font-family:標楷體;
   font-weight:bold;
 }
-.is-play.result-txt {
-    animation: resultPlay 1s infinite linear;
-  }
-
-  @keyframes resultPlay {
-    100% {
-      transform: translateY(-90%)
-    }
-  }
 #first_word {
   text-align: left
 }
@@ -70,21 +61,20 @@ display: flex;
   text-align: center
 }
 #blank2 {height: 120px}
-#button_area {
- width: 240px;
+#button_area1 {
+ width: 720px;
+ display: flex;
+  flex-direction:row;
+	 justify-content: space-between;
+     align-items:start;
+}
+#button_area2 {
+ width: 720px;
  display: flex;
   flex-direction:row;
 	 justify-content: space-between;
      align-items:center;
 }
-/* #reset {
-  position: absolute;
- left: 250
-}
-#roll {
-  position: absolute;
- left: 350
-} */
 #blank3 {height: 20px}
 #active_area {
   width: 800px;
@@ -113,11 +103,11 @@ display: flex;
             <li class="nav-item">
               <a class="nav-link" href="/api/student">{{home}}</a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">{{often1}} <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" href="/api/active/forum">{{often2}}</a>
+              <a class="nav-link" href="/api/machine">{{often1}}</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{often2}} <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/api/active">{{often3}}</a>
@@ -132,47 +122,63 @@ display: flex;
      
     <template id="outputerUI">
       <nav aria-label="...">
-        <div id="machine_area">
-          <div id="blank1"></div>
+        <div id="speaker_area">
+          <!-- <div id="blank1"></div> -->
           <div id="word_area">
             <div id="first_word"  >
               <div class="result-txt" id="result1">
-                <div class="result-item" v-for="word1 of last_name">{{word1}}</div>
+                <div class="result-item" >{{word1}}</div>
               </div>   
             </div> 
             <div id="second_word" >
                   <div class="result-txt" id="result2">
-                    <div class="result-item" v-for="word2 of middle_name">{{word2}}</div>
+                    <div class="result-item" >{{word2}}</div>
                 </div>
             </div>
             <div id="third_word">
               <div class="result-txt" id="result3">
-                <div class="result-item" v-for="word3 of first_name">{{word3}}</div>
+                <div class="result-item" >{{word3}}</div>
               </div>
             </div>    
           </div>
-          <div id="blank2"></div>
+          <!-- <div id="blank2"></div> -->
           <div id="button_area">
-            <button type="submit" id="reset"class="btn btn-light" @click="reset()">歸零</button>
-            <button type="submit" id="roll" class="btn btn-danger" @click="roll()">轉動</button>
-            <!-- <audio controls="controls" hidden :src="" ref="audio"></audio> -->
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(1)></button>
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(2)></button>
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(3)></button>
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(4)></button>
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(5)></button>
+            <button type="submit" id="digitten" class="btn btn-info" @click=assignten(6)></button>
+            <button type="button" id="reset" class="btn btn-light" @click="reset()">歸零</button>
+          </div>
+          <div id="button_area">
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(1)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(2)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(3)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(4)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(5)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(6)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(7)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(8)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(9)></button>
+            <button type="submit" id="digitsingle" class="btn btn-success" @click=assign(0)></button>
           </div>
         </div>
         <div id="active_area">
           <h4>互動情形：</h4>
           <table>          
           <tr>
-            <td width="200px"><button type="submit" value="" class="btn btn-dark" @click="record(0)">缺席</button></td>
-            <td width="200px"><button type="submit" value="" class="btn btn-secondary" @click="record(1)">未回應</button></td>
-              <td width="200px"><button type="submit" value="" class="btn btn-ligth" @click="record(2)">回答不知道</button></td>
-                <td width="200px"><button type="submit" value="" class="btn btn-warning" @click="record(3)">自由發揮</button></td>
+            <td width="200px"><button type="submit" value="" class="btn btn-dark" @click="record(10)">簡問</button></td>
+            <td width="200px"><button type="submit" value="" class="btn btn-secondary" @click="record(11)">長問題</button></td>
+              <td width="200px"><button type="submit" value="" class="btn btn-ligth" @click="record(12)">大哉問</button></td>
+                <td width="200px"><button type="submit" value="" class="btn btn-warning" @click="record(13)">自由發揮</button></td>
           </tr>
           <tr height="20px"></tr>
           <tr>
-            <td><button type="submit" value="" class="btn btn-info" @click="record(4)">簡答</button></td>
-            <td><button type="submit" value="" class="btn btn-primary" @click="record(5)">長答</button></td>
-              <td><button type="submit" value="" class="btn btn-success" @click="record(6)">答得好</button></td>
-                <td><button type="submit" value="" class="btn btn-light" @click="record(7)">其他</button></td>
+            <td><button type="submit" value="" class="btn btn-info" @click="record(14)">簡答</button></td>
+            <td><button type="submit" value="" class="btn btn-primary" @click="record(15)">長答</button></td>
+              <td><button type="submit" value="" class="btn btn-success" @click="record(16)">答得好</button></td>
+                <td><button type="submit" value="" class="btn btn-light" @click="record(17)">其他</button></td>
           </tr>
           </table>
           </div>
@@ -226,85 +232,74 @@ Vue.component("bander",{
     data(){
       return{
         studentlist:JSON.parse(decodeURIComponent('<%=studentlist%>')),
-        pickwaterno:"15"
+        word1:"7",
+        word2:"7",
+        word3:"7",
+        digitten:0,
+        pickwaterno:0
       }      
     },
     computed:{
-      last_name:function(){
-        let last_name=new Array();
+      studentarray:function(){
+        let studentarray=new Array(68);
+        for(let i=0;i<68;i++){
+          studentarray[i]=new Array(4)
+        }
+        for(let j=0;j<4;j++){
+          studentarray[0][j]=0
+        }
         let i=1;
         for(let student of this.studentlist){
-          last_name[i]=student.a10last_name;
+          studentarray[i][0]=student.a35water_no;
+          studentarray[i][1]=student.a10last_name;
+          studentarray[i][2]=student.a13middle_name;
+          studentarray[i][3]=student.a151st_name;
           i=i+1
         }
-        last_name[0]="7";
-        return last_name
-      },
-      middle_name:function(){
-        let middle_name=new Array();
-        let i=1;
-        for(let student of this.studentlist){
-          middle_name[i]=student.a13middle_name;
-          i=i+1
+        let temp0,temp1,temp2,temp3;
+        for(let i=1;i<68;i++){
+          for(let m=0;m<68-i;m++){
+            if(studentarray[m][0]>studentarray[m+1][0]){
+              temp0=studentarray[m][0];
+              temp1=studentarray[m][1];
+              temp2=studentarray[m][2];
+              temp3=studentarray[m][3];
+              studentarray[m][0]=studentarray[m+1][0];
+              studentarray[m][1]=studentarray[m+1][1];
+              studentarray[m][2]=studentarray[m+1][2];
+              studentarray[m][3]=studentarray[m+1][3];
+              studentarray[m+1][0]=temp0;
+              studentarray[m+1][1]=temp1;
+              studentarray[m+1][2]=temp2;
+              studentarray[m+1][3]=temp3;
+            }
+          }
         }
-        middle_name[0]="7";
-        return middle_name
-      },
-      first_name:function(){
-        let first_name=new Array();
-        let i=1;
-        for(let student of this.studentlist){
-          first_name[i]=student.a151st_name;
-          i=i+1
-        }
-        first_name[0]="7";
-        return first_name
-      },
-      waterno:function(){
-        var waterno=new Array();
-        let i=1;
-        for(let student of this.studentlist){
-          waterno[i]=student.a35water_no;
-          i=i+1
-        }
-        waterno[0]="7";
-        return waterno
+        return studentarray
       }
     },
     methods:{
-      roll:function(){
-        let pickrandom=Math.random(Date.now());
-        let pickno=Math.floor(pickrandom*68);
-        let stopno=pickno/68*100;
-        this.pickwaterno=this.waterno[pickno];
-        console.log("pickno:"+pickno)
-        console.log("pickwaterno:"+this.pickwaterno);
-        if (document.getElementById(`result1`)) {
-      document.getElementById(`result1`).classList.add('is-play');
-      document.getElementById(`result2`).classList.add('is-play');
-      document.getElementById(`result3`).classList.add('is-play');
-      document.getElementById(`result1`).style.transform = 'none';
-      document.getElementById(`result2`).style.transform = 'none';
-      document.getElementById(`result3`).style.transform = 'none';
-      //this.$refs.audio.currentTime=0;
-      // this.$refs.audio.play()
-      }
-        setTimeout(() => {          
-          if (document.getElementById(`result1`)) {            
-            document.getElementById(`result1`).classList.remove('is-play');
-            document.getElementById(`result2`).classList.remove('is-play');
-            document.getElementById(`result3`).classList.remove('is-play');            
-      document.getElementById(`result1`).style.transform = `translateY(${-stopno}%)`;    
-    document.getElementById(`result2`).style.transform = `translateY(${-stopno}%)`;    
-    document.getElementById(`result3`).style.transform = `translateY(${-stopno}%)`;
-    // this.$refs.audio.pause()
-      };
-        }, 4000);
+      assignten:function(ten){
+        this.digitten=ten;
+        console.log("gotten digitten:"+this.digitten);
       },
-      reset:function(){     
-      document.getElementById(`result1`).style.transform = 'none';
-      document.getElementById(`result2`).style.transform = 'none';
-      document.getElementById(`result3`).style.transform = 'none';
+      assign:function(digitsingle){
+        console.log("digitten:"+this.digitten);
+        console.log("digitsingle:"+digitsingle);
+        this.pickwaterno=this.digitten*10+digitsingle;
+        console.log("pick water_no:"+this.pickwaterno);
+        console.log("word1:"+this.studentarray[this.pickwaterno][3]);
+        this.word1=this.studentarray[this.pickwaterno][1];
+        this.word2=this.studentarray[this.pickwaterno][2];
+        this.word3=this.studentarray[this.pickwaterno][3];
+        this.digitten=0
+        },
+      reset:function(){
+        this.word1="7",
+        this.word2="7",
+        this.word3="7",
+        this.ditgitsingle=0,
+        this.pickwaterno=0
       },
       record:function(activecode){
         let querytext="?code="+activecode;

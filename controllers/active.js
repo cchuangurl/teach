@@ -67,6 +67,20 @@ module.exports = {
             });
         });
     },
+    forumpage(req, res){
+    var listreport=req.query.statusreport;
+        Student.find({},null,{sort: {a25grade:1,a05register_no:1}}, function(err, student) {
+            if (err)
+            res.send(err);
+            //res.json(student);
+            let studentlist=encodeURIComponent(JSON.stringify(student));
+            res.render("active/forum",{
+                statusreport:listreport,
+                studentlist:studentlist
+            });
+            //res.end()
+        });
+    },//EOF forumpage
     //創建
     create(req, res) {
         //let turninfo=Turninfo.find({a35waterno:req.body.a10waterno},{_id:{$slice: 1}});

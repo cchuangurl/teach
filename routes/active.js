@@ -12,6 +12,10 @@ router.get('/inputpage', function(req, res, next) {
 		statusreport:req.query.statusreport
 	})
 });
+//導到互動園地頁
+router.get('/forum', function(req, res, next) {
+	activeController.forumpage(req,res)	
+});
 //導到互動紀錄資料批次輸入頁
 router.get('/batchinput', function(req, res, next) {
 	activeController.dobatchinput(req,res)
